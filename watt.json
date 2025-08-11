@@ -7,14 +7,12 @@
   "logger": {
     "level": "info"
   },
-  "autoload": {
-    "path": "web"
-  },
-  "entrypoint": "composer",
-  "web": [
+  "entrypoint": "api",
+  "services": [
     {
       "id": "api",
       "path": "web/api",
+      "workers": "{PLT_WORKERS}",
       "env": {
         "DATABASE_URL": "{DATABASE_URL}"
       }
