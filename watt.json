@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schemas.platformatic.dev/wattpm/2.72.0.json",
+  "$schema": "https://schemas.platformatic.dev/wattpm/2.75.0.json",
   "server": {
     "hostname": "127.0.0.1",
     "port": 3042
@@ -17,5 +17,6 @@
   ],
   "metrics": {
     "enabled": true
-  }
+  },
+  "exitOnUnhandledErrors": false
 }

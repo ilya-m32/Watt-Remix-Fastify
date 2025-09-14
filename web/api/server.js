@@ -45,7 +45,7 @@ export async function build() {
   fastify.addHook('onClose', async () => {
     // reeaaly long closing step - a bug, a glitch, uncleared timer/connection or whatever
     // but still less than default gracefulShutdown 20s
-    await sleep(11000);
+    await sleep(3000);
 
     console.log('clean up hook');
   })
