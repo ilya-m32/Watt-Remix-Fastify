@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schemas.platformatic.dev/wattpm/2.75.0.json",
+  "$schema": "https://schemas.platformatic.dev/wattpm/3.2.1.json",
   "server": {
     "hostname": "127.0.0.1",
     "port": 3042
@@ -13,10 +13,18 @@
       "id": "api",
       "path": "web/api",
       "workers": "{PLT_WORKERS}"
+    },
+    {
+      "id": "back-app",
+      "path": "web/back-app"
     }
   ],
   "metrics": {
     "enabled": true
+  },
+  "gracefulShutdown": {
+    "application": 15000,
+    "runtime": 20000
   },
   "exitOnUnhandledErrors": false
 }

@@ -2,17 +2,11 @@ import Fastify from "fastify";
 import cors from "@fastify/cors";
 
 import path from "path";
-import { fileURLToPath } from "url";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 process.on('unhandledRejection', (reason, promise) => {
-  // logged
   console.log('Unhandled Rejection at:', promise, 'reason:', reason);
-
-  // the app goes on without WattPM
 })
 
 async function skipUnhandled() {
@@ -21,11 +15,12 @@ async function skipUnhandled() {
 }
 
 export async function build() {
+  console.log('starting fastify app');
   // imitate a longer start of a new worker
-  await sleep(5000);
+  await sleep(2000);
 
   const fastify = Fastify({
-    logger: { level: globalThis.platformatic?.logLevel ?? "info" },
+    logger: { level: "info" },
   });
 
   fastify.register(cors, {
@@ -33,6 +28,7 @@ export async function build() {
   });
 
   fastify.get("/", async (request, reply) => {
+    await sleep(5000);
     return { hello: "world" };
   });
 
@@ -43,18 +39,13 @@ export async function build() {
   });
 
   fastify.addHook('onClose', async () => {
-    // reeaaly long closing step - a bug, a glitch, uncleared timer/connection or whatever
-    // but still less than default gracefulShutdown 20s
-    await sleep(3000);
+    console.log('Actually closing the app');
+    // reeaally long closing step
+    // but still less than current gracefulShutdown timeout
+    await sleep(2000);
 
-    console.log('clean up hook');
+    fastify.log.info('clean up ready');
   })
 
   return fastify;
-}
-
-if (!globalThis.platformatic) {
-  const server = await build();
-
-  await server.listen({port: 3042});
 }
